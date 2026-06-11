@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloco de Anotações</title>
+<style>
+body {font-family: Arial; max-width:600px; margin:auto; padding:20px;}
+textarea {width:100%; height:150px;}
+button {margin-top:10px;}
+#feedback {margin-top:10px; font-weight:bold;}
+</style>
+</head>
+<body>
+
+<h1>Bloco de Anotações</h1>
+<textarea id="anotacao"></textarea><br>
+<button onclick="salvar()">Salvar</button>
+<button onclick="limpar()">Limpar</button>
+<div id="feedback"></div>
+
+<script>
+const textarea = document.getElementById("anotacao");
+const feedback = document.getElementById("feedback");
+
+const salvo = localStorage.getItem("minhaAnotacao");
+if (salvo) {
+    textarea.value = salvo;
+    feedback.textContent = "Anotação carregada!";
+}
+
+function salvar() {
+    localStorage.setItem("minhaAnotacao", textarea.value);
+    feedback.textContent = "Anotação salva!";
+}
+
+function limpar() {
+    localStorage.removeItem("minhaAnotacao");
+    textarea.value = "";
+    feedback.textContent = "Anotação removida!";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrinho</title>
+</head>
+<body>
+
+<h1>Carrinho de Compras</h1>
+<input type="text" id="produto">
+<button onclick="adicionar()">Adicionar</button>
+
+<p id="contador"></p>
+<ul id="lista"></ul>
+<button onclick="limparCarrinho()">Esvaziar</button>
+
+<script>
+let produtos = [];
+
+const lista = document.getElementById("lista");
+const contador = document.getElementById("contador");
+
+const salvo = sessionStorage.getItem("carrinho");
+if (salvo) {
+    produtos = JSON.parse(salvo);
+}
+
+function salvar() {
+    sessionStorage.setItem("carrinho", JSON.stringify(produtos));
+}
+
+function atualizarTela() {
+    lista.innerHTML = "";
+    produtos.forEach((p, i) => {
+        const li = document.createElement("li");
+        li.innerHTML = p + ' <button onclick="remover('+i+')">Remover</button>';
+        lista.appendChild(li);
+    });
+    contador.textContent = produtos.length + " produto(s)";
+}
+
+function adicionar() {
+    const input = document.getElementById("produto");
+    if (input.value === "") return;
+    produtos.push(input.value);
+    input.value = "";
+    salvar();
+    atualizarTela();
+}
+
+function remover(i) {
+    produtos.splice(i, 1);
+    salvar();
+    atualizarTela();
+}
+
+function limparCarrinho() {
+    produtos = [];
+    sessionStorage.removeItem("carrinho");
+    atualizarTela();
+}
+
+atualizarTela();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioma</title>
+</head>
+<body>
+
+<h1 id="titulo"></h1>
+<h2 id="subtitulo"></h2>
+<p id="frase"></p>
+
+<select id="idioma">
+<option value="pt">Português</option>
+<option value="en">English</option>
+</select>
+
+<button onclick="salvarIdioma()">Salvar</button>
+<button onclick="removerIdioma()">Remover</button>
+
+<script>
+const textos = {
+    pt: {titulo:"Bem-vindo", subtitulo:"Escolha seu idioma", frase:"Exemplo com cookies"},
+    en: {titulo:"Welcome", subtitulo:"Choose your language", frase:"Example using cookies"}
+};
+
+function aplicarIdioma(id) {
+    document.getElementById("titulo").textContent = textos[id].titulo;
+    document.getElementById("subtitulo").textContent = textos[id].subtitulo;
+    document.getElementById("frase").textContent = textos[id].frase;
+}
+
+function setCookie(n,v,d) {
+    document.cookie = n+"="+v+"; max-age="+(d*86400)+"; path=/";
+}
+
+function getCookie(n) {
+    return document.cookie.split("; ").find(row=>row.startsWith(n+"="))?.split("=")[1];
+}
+
+function deleteCookie(n) {
+    document.cookie = n+"=; max-age=0; path=/";
+}
+
+function salvarIdioma() {
+    const id = document.getElementById("idioma").value;
+    setCookie("idioma", id, 14);
+    aplicarIdioma(id);
+}
+
+function removerIdioma() {
+    deleteCookie("idioma");
+    aplicarIdioma("pt");
+}
+
+const idioma = getCookie("idioma") || "pt";
+aplicarIdioma(idioma);
+</script>
+
+</body>
+</html>
